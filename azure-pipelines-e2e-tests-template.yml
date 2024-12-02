@@ -92,7 +92,7 @@ stages:
             }
 
             $pathSeparator = [IO.Path]::DirectorySeparatorChar
-            $artifactPath = "$(Build.ArtifactStagingDirectory)${pathSeparator}"
+            $artifactPath = "$(Build.ArtifactStagingDirectory)${pathSeparator}Microsoft.Spark.Binaries"
             echo "##vso[task.setvariable variable=PATH_SEPARATOR]$pathSeparator"
             echo "##vso[task.setvariable variable=ArtifactPath]$artifactPath"
 
@@ -121,12 +121,12 @@ stages:
               dir /B /S
           displayName: '[TEMP] Print ArtifactStagingDirectory Structure'
 
-        #- task: CopyFiles@2
-        #  displayName: Copy jars
-        #  inputs:
-        #    sourceFolder: $(System.ArtifactsDirectory)$(PATH_SEPARATOR)Jars
-        #    contents: '**$(PATH_SEPARATOR)*.jar'
-        #    targetFolder: $(Build.SourcesDirectory)$(PATH_SEPARATOR)dotnet-spark$(PATH_SEPARATOR)src$(PATH_SEPARATOR)scala
+        - task: CopyFiles@2
+          displayName: Copy jars
+          inputs:
+            sourceFolder: $(ArtifactPath)$(PATH_SEPARATOR)Jars
+            contents: '**$(PATH_SEPARATOR)*.jar'
+            targetFolder: $(Build.SourcesDirectory)$(PATH_SEPARATOR)dotnet-spark$(PATH_SEPARATOR)src$(PATH_SEPARATOR)scala
 
         - script: |
               cd $(Build.SourcesDirectory)
