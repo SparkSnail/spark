@@ -102,7 +102,7 @@ extends:
           displayName: 'Maven build benchmark'
           inputs:
             mavenPomFile: benchmark/scala/pom.xml
-
+    
         - script: build.cmd -pack
                     -c $(buildConfiguration)
                     -ci
