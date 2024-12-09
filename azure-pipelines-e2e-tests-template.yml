@@ -20,13 +20,13 @@ stages:
       - job: Run_${{ replace(option.pool, ' ', '_') }}
         ${{ if eq(lower(option.pool), 'windows') }}:
           pool:
-            name: Azure-Pipelines-1ESPT-ExDShared
-            image: windows-2019
+            name: Cosmos2MT-AzureDevOps-AgentPool
+            image: 1es-pt-windows-2019
             os: windows
         ${{ else }}:
           pool:
-            name: Azure-Pipelines-1ESPT-ExDShared
-            image: ubuntu-latest
+            name: Cosmos2MT-AzureDevOps-AgentPool
+            image: 1es-pt-ubuntu-22
             os: linux
 
         steps:
@@ -63,7 +63,7 @@ stages:
               sudo apt update
               sudo apt -y install maven
               mvn -version
-
+          
         - task: UseDotNet@2
           displayName: 'Use .NET 6 sdk'
           inputs:
@@ -104,12 +104,6 @@ stages:
 
         - checkout: self
           path: s$(PATH_SEPARATOR)dotnet-spark
-
-        - task: DownloadBuildArtifacts@1
-          displayName: Download Build Artifacts
-          inputs:
-            artifactName: Microsoft.Spark.Binaries
-            downloadPath: $(System.ArtifactsDirectory)
 
         - task: CopyFiles@2
           displayName: Copy jars
