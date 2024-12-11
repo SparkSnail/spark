@@ -171,5 +171,5 @@ extends:
             - ${{ each pool in option.poolType}} :
               - pool: ${{ pool }}
                 testOptions: ""
-                backwardCompatibleTestOptions: $(backwardCompatibleTestOptions_${{ pool }}_${{ join('_', split(option.version, '.')[0:1])}})
-                forwardCompatibleTestOptions: $(forwardCompatibleTestOptions_${{ pool }}_${{ join('_', split(option.version, '.')[0:1])}})
+                backwardCompatibleTestOptions: $(backwardCompatibleTestOptions_${{ pool }}_${{ join('_', take(split(option.version, '.'), 2))}})
+                forwardCompatibleTestOptions: $(forwardCompatibleTestOptions_${{ pool }}_${{ join('_', take(split(option.version, '.'), 2))}})
