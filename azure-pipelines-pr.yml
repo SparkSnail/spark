@@ -42,9 +42,6 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 
-  enableForwardCompatibleTests: false
-  enableBackwardCompatibleTests: false
-
 parameters:
 - name: listOfE2ETestsSparkVersions
   type: object
@@ -156,11 +153,10 @@ extends:
         tests:
         - ${{ each version in parameters.listOfE2ETestsSparkVersions }} :
           - version: ${{ version }}
-            enableForwardCompatibleTests: $(enableForwardCompatibleTests)
-            enableBackwardCompatibleTests: $(enableBackwardCompatibleTests)
+            enableForwardCompatibleTests: false
+            enableBackwardCompatibleTests: false
             jobOptions:
             - ${{ each pool in parameters.listOfE2ETestsPoolTypes }}:
               - pool: ${{ pool }}
-                testOptions: ""
                 backwardCompatibleTestOptions: $(backwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[0] }}_${{ split(version, '.')[1] }})
                 forwardCompatibleTestOptions: $(forwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[0] }}_${{ split(version, '.')[1] }})
