@@ -158,5 +158,5 @@ extends:
             jobOptions:
             - ${{ each pool in parameters.listOfE2ETestsPoolTypes }}:
               - pool: ${{ pool }}
-                backwardCompatibleTestOptions: $(backwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[0] }}_${{ split(version, '.')[1] }})
-                forwardCompatibleTestOptions: $(forwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[0] }}_${{ split(version, '.')[1] }})
+                backwardCompatibleTestOptions: $(backwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[2] }})
+                forwardCompatibleTestOptions: $(forwardCompatibleTestOptions_${{ pool }}_${{ split(version, '.')[2] }})
