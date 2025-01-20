@@ -191,8 +191,3 @@ extends:
                      /p:DotNetSignType=$(_SignType)
                      /p:SparkPackagesDir=$(ArtifactPath)\BuildArtifacts\artifacts\packages
                      /p:SparkWorkerPublishDir=$(ArtifactPath)\Microsoft.Spark.Worker
-
-        - task: PublishBuildArtifacts@1
-          inputs:
-            pathtoPublish: '$(ArtifactPath)'
-            artifactName:  Microsoft.Spark.Binaries
