@@ -170,13 +170,12 @@ extends:
             contents: '**/*.jar'
             targetFolder: $(Build.ArtifactStagingDirectory)/Jars
 
-        - task: MicroBuildSigningPlugin@2
-          displayName: Install MicroBuild plugin
+        - task: MicroBuildSigningPlugin@4
+          displayName: MicroBuild Install Signing Plugin
           inputs:
-            signType: real
-            zipSources: false
-            feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
-            #feedSource: https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json
+            signType: 'real'
+            #feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
+            feedSource: 'https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json'
             #feedSource: https://mseng.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json
           env:
             TeamName: $(_TeamName)
