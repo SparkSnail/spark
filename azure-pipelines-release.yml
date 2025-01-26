@@ -170,25 +170,33 @@ extends:
             contents: '**/*.jar'
             targetFolder: $(Build.ArtifactStagingDirectory)/Jars
 
-        - task: MicroBuildSigningPlugin@4
-          displayName: MicroBuild Install Signing Plugin
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@5
+          displayName: "ESRP Nuget Package Sign"
           inputs:
-            signType: 'real'
-            #feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
-            feedSource: 'https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json'
-            #feedSource: https://mseng.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json
-          env:
-            TeamName: $(_TeamName)
-          condition: and(succeeded(), in(variables['_SignType'], 'real', 'test'), eq(variables['Agent.Os'], 'Windows_NT'))
-
-        - task: PowerShell@2
-          displayName: Sign artifacts
-          inputs:
-            filePath: eng\common\build.ps1
-            arguments: -restore -sign
-                     -c $(buildConfiguration)
-                     -ci
-                     $(_OfficialBuildIdArgs)
-                     /p:DotNetSignType=$(_SignType)
-                     /p:SparkPackagesDir=$(ArtifactPath)\BuildArtifacts\artifacts\packages
-                     /p:SparkWorkerPublishDir=$(ArtifactPath)\Microsoft.Spark.Worker
+            ConnectedServiceName: SigningConnection
+            AppRegistrationClientId: test
+            AppRegistrationTenantId: test
+            AuthAKVName: keyVault
+            AuthCertName: esrp-certificate
+            AuthSignCertName: esrp-signing-certificate
+            FolderPath: $(Build.ArtifactStagingDirectory)/NugetPackage
+            Pattern: '*.nupkg'
+            UseMinimatch: true
+            signConfigType: inlineSignParams
+            inlineOperation: |-
+              [
+               {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetSign",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
