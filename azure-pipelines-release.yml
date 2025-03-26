@@ -19,7 +19,7 @@ resources:
   - repository: forwardCompatibleRelease
     type: github
     endpoint: dotnet.spark
-    name: dotnet/spark
+    name: SparkSnail/spark
     ref: refs/tags/v$(forwardCompatibleRelease)
   
   - repository: 1ESPipelineTemplates
